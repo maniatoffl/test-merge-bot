@@ -1,33 +1,56 @@
-
-name: Merge Bot
+name: Continous Integration
 
 on:
+  push:
+    branches:
+      - 'source'
   pull_request:
-    types:
-      - labeled
-      - ready_for_review
-      - review_request_removed
-      - review_requested
-      - synchronize
-      - unlabeled
-  pull_request_review:
-    types:
-      - dismissed
-      - submitted
+
+permissions:
+  contents: write
 
 jobs:
-  merge:
+  build:
+    name: 'Build 📦'
     runs-on: ubuntu-latest
-    name: Merge
     steps:
-    - name: Integration check
-      uses: squalrus/merge-bot@v0.1.0
-      with:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        test: true
-        reviewers: true
-        labels: ready, merge
-        blocking_labels: do not merge
-        checks_enabled: true
-        method: squash
-        delete_source_branch: true
+      - uses: actions/checkout@v3
+      - name: Gatsby cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            **/public
+            **/.cache
+          key: gatsby-cache
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+          cache: 'yarn'
+      - run: yarn install
+        name: Install dependencies
+      - run: yarn lint
+        name: Run lint
+      - run: yarn build
+        name: Build Gatsby output
+      - uses: actions/upload-artifact@v3
+        with:
+          name: build
+          path: ./public
+
+  dependabot:
+    name: 'Spidermen'
+    needs: [build, e2e]
+    runs-on: ubuntu-latest
+    if: ${{ github.actor == 'dependabot[bot]' && github.event_name == 'pull_request'}}
+    steps:
+      - name: Dependabot metadata
+        id: metadata
+        uses: dependabot/fetch-metadata@v1.3.1
+        with:
+          github-token: '${{ secrets.GITHUB_TOKEN }}'
+      - name: Enable auto-merge for Dependabot PRs
+        run: gh pr merge --auto --merge "$PR_URL"
+        env:
+          PR_URL: ${{github.event.pull_request.html_url}}
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
