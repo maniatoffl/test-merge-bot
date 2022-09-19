@@ -1,40 +1,33 @@
-name: 'PR Merge Bot'
-description: 'Merge pull requests when certain conditions are met'
-branding:
-  icon: 'git-merge'
-  color: 'purple'
-inputs:
-  test:
-    description: 'Runs in test mode and will comment rather than merge'
-    required: false
-    default: 'false'
-  labels:
-    description: 'Labels required for integration'
-    required: true
-    default: 'ready'
-  blocking_labels:
-    description: 'Labels that block the integration'
-    required: false
-    default: 'do not merge'
-  reviewers:
-    description: 'Reviewers required and reviewers must all approve'
-    required: false
-    default: 'true'
-  checks_enabled:
-    description: 'All checks must be completed to be eligible to integrate (except the current Action)'
-    required: false
-    default: 'false'
-  method:
-    description: 'Merge method to use. Possible values are `merge`, `squash` or `rebase`. Default is `merge`.'
-    required: false
-    default: 'merge'
-  delete_source_branch:
-    description: If true, delete the source branch of the pull request after merging
-    required: false
-    default: 'true'
-  GITHUB_TOKEN:
-    description: 'Authorization Token for accessing GitHub'
-    required: true
-runs:
-  using: 'node12'
-  main: 'index.js'
+
+name: Merge Bot
+
+on:
+  pull_request:
+    types:
+      - labeled
+      - ready_for_review
+      - review_request_removed
+      - review_requested
+      - synchronize
+      - unlabeled
+  pull_request_review:
+    types:
+      - dismissed
+      - submitted
+
+jobs:
+  merge:
+    runs-on: ubuntu-latest
+    name: Merge
+    steps:
+    - name: Integration check
+      uses: squalrus/merge-bot@v0.1.0
+      with:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        test: true
+        reviewers: true
+        labels: ready, merge
+        blocking_labels: do not merge
+        checks_enabled: true
+        method: squash
+        delete_source_branch: true
