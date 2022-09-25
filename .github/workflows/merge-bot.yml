@@ -2,7 +2,7 @@ name: automerge
 on:
   pull_request_review:
     types:
-      - approved
+      - submitted
   check_suite:
     types:
       - completed
