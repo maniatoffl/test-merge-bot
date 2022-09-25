@@ -20,4 +20,4 @@ jobs:
         with:
           script: |
             const {owner, repo} = context.issue
-            echo "Checking out from PR ${{owner}}"   
+            echo owner   
