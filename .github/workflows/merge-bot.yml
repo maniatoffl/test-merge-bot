@@ -11,7 +11,7 @@ jobs:
     # if: ${{ github.event.comment.body == 'I like pizza'}}
     steps:
       - name: automerge
-        uses: actions/github-script@v4
+        # uses: actions/github-script@v4
         run: |
           PR_URL="${{ github.event.issue.pull_request.url }}"
           PR_NUM=${PR_URL##*/}
