@@ -77,7 +77,10 @@
 #       - run: 'echo Found it!'
 #         if: steps.check.outputs.triggered == 'true'
 
-on: issue_comment
+on: 
+  issue_comment:
+  types:
+      - created
 
 jobs:
   pr_commented:
