@@ -14,8 +14,7 @@ on:
     types:
       - submitted
   issue_comment:
-    types:
-      - created
+    types: [created]
   check_suite:
     types:
       - completed
