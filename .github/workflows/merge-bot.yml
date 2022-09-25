@@ -16,13 +16,4 @@ jobs:
           PR_URL="${{ github.event.issue.pull_request.url }}"
           PR_NUM=${PR_URL##*/}
           echo "Checking out from PR #$PR_NUM based on URL: $PR_URL"
-          hub pr checkout $PR_NUM
-        with:
-          script: |
-            const {owner, repo} = context.issue
-            github.reactions.createForIssueComment({
-              owner,
-              repo,
-              comment_id: context.payload.comment.id,
-              content: "+1",
-            });        
+          hub pr checkout $PR_NUM    
