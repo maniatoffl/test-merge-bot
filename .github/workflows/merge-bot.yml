@@ -37,22 +37,29 @@ on:
     types:
       - created
 
+# jobs:
+#   like-pizza:
+#     runs-on: ubuntu-latest
+#     # if: ${{ github.event.comment.body == 'I like pizza'}}
+#     steps:
+#       - name: automerge
+#         uses: actions/github-script@v4
+#         with:
+#           script: |
+#             const {owner, repo} = context.issue
+#             github.reactions.createForIssueComment({
+#               owner,
+#               repo,
+#               comment_id: context.payload.comment.id,
+#               content: "+1",
+#             });        
+
 jobs:
-  like-pizza:
+  automerge:
     runs-on: ubuntu-latest
-    # if: ${{ github.event.comment.body == 'I like pizza'}}
     steps:
-      - name: automerge
-        # uses: actions/github-script@v4
+      - id: automerge
+        name: automerge
         uses: "pascalgn/automerge-action@v0.15.3"
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-        # with:
-        #   script: |
-        #     const {owner, repo} = context.issue
-        #     github.reactions.createForIssueComment({
-        #       owner,
-        #       repo,
-        #       comment_id: context.payload.comment.id,
-        #       content: "+1",
-        #     });         
