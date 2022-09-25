@@ -1,37 +1,31 @@
-name: automerge
-on:
-  pull_request:
-    types:
-      - labeled
-      - unlabeled
-      - synchronize
-      - opened
-      - edited
-      - ready_for_review
-      - reopened
-      - unlocked
-  pull_request_comment:
-    types:
-     -created
-  issue_comment:
-    types: 
-     -created
-  pull_request_review:
-    types:
-      - submitted
-  check_suite:
-    types:
-      - completed
-  status: {}
-jobs:
-  automerge:
-    runs-on: ubuntu-latest
-    steps:
-      - id: automerge
-        name: automerge
-        uses: "pascalgn/automerge-action@v0.15.3"
-        env:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+# name: automerge
+# on:
+#   pull_request:
+#     types:
+#       - labeled
+#       - unlabeled
+#       - synchronize
+#       - opened
+#       - edited
+#       - ready_for_review
+#       - reopened
+#       - unlocked
+#   pull_request_review:
+#     types:
+#       - submitted
+#   check_suite:
+#     types:
+#       - completed
+#   status: {}
+# jobs:
+#   automerge:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - id: automerge
+#         name: automerge
+#         uses: "pascalgn/automerge-action@v0.15.3"
+#         env:
+#           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
 
 
 # name: automerge
@@ -59,3 +53,28 @@ jobs:
 #         uses: "pascalgn/automerge-action@v0.15.3"
 #         env:
 #           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+
+
+name: Like pizza
+
+on:
+  issue_comment:
+    types:
+      - created
+
+jobs:
+  like-pizza:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.comment.body == 'I like pizza'}}
+    steps:
+      - name: Like pizza
+        uses: actions/github-script@v4
+        with:
+          script: |
+            const {owner, repo} = context.issue
+            github.reactions.createForIssueComment({
+              owner,
+              repo,
+              comment_id: context.payload.comment.id,
+              content: "+1",
+            });           
