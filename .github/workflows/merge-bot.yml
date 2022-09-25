@@ -28,10 +28,8 @@
 #           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
 
 
-name: Auto-Merge
+name: automerge
 on: 
-  issue_comment:
-  types: [created, edited]
 
   pull_request:
   types:
@@ -43,6 +41,8 @@ on:
     - ready_for_review
     - reopened
     - unlocked
+  issue_comment:
+  types: [created, edited]
 
 jobs:
   automerge:
