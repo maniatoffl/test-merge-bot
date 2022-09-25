@@ -79,8 +79,7 @@
 name: Comment
 on: 
   issue_comment:
-  types: [created]
-  status: {}
+    types: [created]
 
 jobs:
   pr_commented:
