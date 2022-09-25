@@ -34,7 +34,8 @@ name: Like pizza
 
 on:
   issue_comment:
-    types: [ created ]
+    types:
+      - created
 
 jobs:
   like-pizza:
