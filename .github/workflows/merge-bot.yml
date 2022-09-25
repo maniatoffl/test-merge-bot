@@ -79,8 +79,8 @@
 
 on: 
   issue_comment:
-  types:
-      - created
+  types: [created]
+  status: {}
 
 jobs:
   pr_commented:
