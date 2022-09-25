@@ -33,6 +33,17 @@ on:
   issue_comment
   types: [created, edited]
 
+  pull_request:
+  types:
+    - labeled
+    - unlabeled
+    - synchronize
+    - opened
+    - edited
+    - ready_for_review
+    - reopened
+    - unlocked
+
 jobs:
   automerge:
     runs-on: ubuntu-latest
