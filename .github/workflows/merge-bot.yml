@@ -17,8 +17,8 @@ on:
     types:
       - completed
   issue_comment:
-   types: 
-    [created, edited]
+    types: 
+      - created
   status: {}
 jobs:
   automerge:
