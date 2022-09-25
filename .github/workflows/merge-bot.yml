@@ -55,9 +55,11 @@
 #           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
 
 
-name: Like pizza
+name: Test
 
 on:
+  pull_request:
+    types: [opened]
   issue_comment:
     types: [created]
 
