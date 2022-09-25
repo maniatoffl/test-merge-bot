@@ -30,7 +30,7 @@
 
 name: Auto-Merge
 on: 
-  issue_comment
+  issue_comment:
   types: [created, edited]
 
   pull_request:
