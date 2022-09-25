@@ -76,7 +76,7 @@
 #           GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
 #       - run: 'echo Found it!'
 #         if: steps.check.outputs.triggered == 'true'
-
+name: Comment
 on: 
   issue_comment:
   types: [created]
