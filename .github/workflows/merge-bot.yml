@@ -59,22 +59,18 @@ name: Like pizza
 
 on:
   issue_comment:
-    types:
-      - created
+    types: [created]
 
 jobs:
-  like-pizza:
+  deploy:
     runs-on: ubuntu-latest
-    if: ${{ github.event.comment.body == 'I like pizza'}}
     steps:
-      - name: Like pizza
-        uses: actions/github-script@v4
+      - uses: khan/pull-request-comment-trigger@v1.1.0
+        id: check
         with:
-          script: |
-            const {owner, repo} = context.issue
-            github.reactions.createForIssueComment({
-              owner,
-              repo,
-              comment_id: context.payload.comment.id,
-              content: "+1",
-            });           
+          trigger: '@deploy'
+          reaction: rocket
+        env:
+          GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+      - run: 'echo Found it!'
+        if: steps.check.outputs.triggered == 'true'
