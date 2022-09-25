@@ -16,10 +16,8 @@ on:
   # check_suite:
   #   types:
   #     - completed
-  issue_comment:
-   types: 
-      - created
-      - edited
+  pull_request_comment:
+   types: [created]
   status: {}
 jobs:
   automerge:
