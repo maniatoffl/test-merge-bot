@@ -10,6 +10,10 @@ jobs:
     runs-on: ubuntu-latest
     # if: ${{ github.event.comment.body == 'I like pizza'}}
     steps:
+     - name: feedback
+        if: steps.automerge.outputs.mergeResult != "merged"
+        run: |
+          echo "Pull request ${{ steps.automerge.outputs.pullRequestNumber }} merged!"
       - name: automerge
         uses: actions/github-script@v4
           # run: |
